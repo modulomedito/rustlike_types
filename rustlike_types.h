@@ -5,6 +5,7 @@
 /// @details This is a header for defining types like rust
 
 // GUARD START
+
 #ifndef RUSTLIKE_TYPES_H
 #define RUSTLIKE_TYPES_H
 #ifdef __cplusplus
@@ -12,12 +13,14 @@ extern "C" {
 #endif
 
 // INCLUDE
+
 #include <inttypes.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
 // PUBLIC TYPEDEF
+
 typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
@@ -35,6 +38,7 @@ typedef unsigned char uchar;
 typedef char* str;
 
 // PUBLIC DEFINE
+
 #ifndef bool
 #define bool bool_t
 #endif
@@ -58,6 +62,7 @@ typedef char* str;
 // PUBLIC FUNCTION DECLARATION
 
 // GUARD END
+
 #ifdef __cplusplus
 }
 #endif
