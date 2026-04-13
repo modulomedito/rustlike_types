@@ -30,7 +30,8 @@ typedef float f32;
 typedef double f64;
 typedef uintptr_t usize;
 typedef intptr_t isize;
-typedef char char8;
+typedef char ichar;
+typedef unsigned char uchar;
 typedef char* str;
 
 // PUBLIC DEFINE
