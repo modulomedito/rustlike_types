@@ -3,6 +3,7 @@
 /// @brief Define rust-like types for C language
 /// @copyright MIT License. Copyright (C) 2026 modulomedito
 /// @details This is a header for defining types like rust
+/// https://github.com/modulomedito/rustlike_types
 
 // GUARD START
 
