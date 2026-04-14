@@ -2,7 +2,7 @@
 /// @file       rustlike_types.h
 /// @author     modulomedito (chcchc1995@outlook.com)
 /// @brief      Define rust-like types for C language
-/// @copyright  Copyright (C) 2026. All rights reserved.
+/// @copyright  Copyright (C) 2026. MIT License.
 /// @details    This is a header for defining types like rust
 ///             https://github.com/modulomedito/rustlike_types
 //==================================================================================================
