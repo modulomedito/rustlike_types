@@ -18,6 +18,6 @@ IndentWidth: 4
 PenaltyBreakBeforeFirstCallParameter: 0
 PenaltyReturnTypeOnItsOwnLine: 1000
 PointerAlignment: Left
-ReflowComments: false
+ReflowComments: true
 TabWidth: 4
 UseTab: Never
