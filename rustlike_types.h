@@ -3,8 +3,9 @@
 /// @author     modulomedito (chcchc1995@outlook.com)
 /// @brief      Define rust-like types for C language
 /// @copyright  Copyright (C) 2026. MIT License.
-/// @details    This is a header for defining types like rust
-///             https://github.com/modulomedito/rustlike_types
+/// @details    This is a header for defining types like rust.
+///
+/// See https://github.com/modulomedito/rustlike_types
 //==================================================================================================
 //==================================================================================================
 // GUARD START
@@ -45,6 +46,10 @@ typedef char* str;
 //==================================================================================================
 // PUBLIC DEFINE
 //==================================================================================================
+#define RUSTLIKE_TYPES__MAJOR_VERSION (0)
+#define RUSTLIKE_TYPES__MINOR_VERSION (1)
+#define RUSTLIKE_TYPES__PATCH_VERSION (0)
+
 #ifndef bool
 #define bool bool_t
 #endif
