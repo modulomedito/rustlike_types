@@ -3,7 +3,7 @@
 /// @author     modulomedito (chcchc1995@outlook.com)
 /// @brief      Define rust-like types for C language
 /// @copyright  Copyright (C) 2026. MIT License.
-/// @details    This is a header for defining types like rust.
+/// @details    This is a header for defining types like rust. C99 compatible.
 ///
 /// See https://github.com/modulomedito/rustlike_types
 //==================================================================================================
@@ -12,7 +12,6 @@
 //==================================================================================================
 #ifndef RUSTLIKE_TYPES_H
 #define RUSTLIKE_TYPES_H
-#include <cstddef>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -63,6 +62,27 @@ typedef unsigned char uchar;
 #ifndef false
 #define false (0)
 #endif
+
+#ifndef Result
+#define Result(T, E) Result_##T##_##E
+#endif
+
+#ifndef Ok
+#define Ok(T, E, okval) (Result_##T##_##E){.is_ok = 1, .ok = okval, .err = 0}
+#endif
+
+// clang-format off
+#ifndef Err
+#define Err(T, E, errval) (Result_##T##_##E){.is_ok = 0, .ok = 0, .err = errval}
+#endif
+// clang-format on
+
+#define DEFINE_RESULT(T, E)                                                                        \
+    typedef struct {                                                                               \
+        bool is_ok : 1;                                                                            \
+        T ok;                                                                                      \
+        E err;                                                                                     \
+    } Result_##T##_##E;
 
 //==================================================================================================
 // PUBLIC ENUM
@@ -147,9 +167,9 @@ typedef struct {
 } Slice_ichar;
 
 typedef struct {
-    char* ptr uchar;
+    uchar* ptr;
     usize len;
-} Slice_char;
+} Slice_uchar;
 
 //==================================================================================================
 // PUBLIC UNION
