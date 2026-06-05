@@ -63,27 +63,6 @@ typedef unsigned char uchar;
 #define false (0)
 #endif
 
-#ifndef Result
-#define Result(T, E) Result_##T##_##E
-#endif
-
-#ifndef Ok
-#define Ok(T, E, okval) (Result_##T##_##E){.is_ok = 1, .ok = okval, .err = 0}
-#endif
-
-// clang-format off
-#ifndef Err
-#define Err(T, E, errval) (Result_##T##_##E){.is_ok = 0, .ok = 0, .err = errval}
-#endif
-// clang-format on
-
-#define DEFINE_RESULT(T, E)                                                                        \
-    typedef struct {                                                                               \
-        bool is_ok : 1;                                                                            \
-        T ok;                                                                                      \
-        E err;                                                                                     \
-    } Result_##T##_##E;
-
 //==================================================================================================
 // PUBLIC ENUM
 //==================================================================================================
@@ -92,82 +71,82 @@ typedef unsigned char uchar;
 // PUBLIC STRUCT
 //==================================================================================================
 typedef struct {
-    u8* ptr;
+    u8 *ptr;
     usize len;
 } Slice_u8;
 
 typedef struct {
-    u16* ptr;
+    u16 *ptr;
     usize len;
 } Slice_u16;
 
 typedef struct {
-    u32* ptr;
+    u32 *ptr;
     usize len;
 } Slice_u32;
 
 typedef struct {
-    u64* ptr;
+    u64 *ptr;
     usize len;
 } Slice_u64;
 
 typedef struct {
-    i8* ptr;
+    i8 *ptr;
     usize len;
 } Slice_i8;
 
 typedef struct {
-    i16* ptr;
+    i16 *ptr;
     usize len;
 } Slice_i16;
 
 typedef struct {
-    i32* ptr;
+    i32 *ptr;
     usize len;
 } Slice_i32;
 
 typedef struct {
-    i64* ptr;
+    i64 *ptr;
     usize len;
 } Slice_i64;
 
 typedef struct {
-    f32* ptr;
+    f32 *ptr;
     usize len;
 } Slice_f32;
 
 typedef struct {
-    f64* ptr;
+    f64 *ptr;
     usize len;
 } Slice_f64;
 
 typedef struct {
-    uptr* ptr;
+    uptr *ptr;
     usize len;
 } Slice_uptr;
 
 typedef struct {
-    iptr* ptr;
+    iptr *ptr;
     usize len;
 } Slice_iptr;
 
 typedef struct {
-    isize* ptr;
+    isize *ptr;
     usize len;
 } Slice_isize;
 
 typedef struct {
-    usize* ptr;
+    usize *ptr;
     usize len;
 } Slice_usize;
 
 typedef struct {
-    ichar* ptr;
+    ichar *ptr;
     usize len;
 } Slice_ichar;
 
 typedef struct {
-    uchar* ptr;
+    uchar *ptr;
     usize len;
 } Slice_uchar;
 
