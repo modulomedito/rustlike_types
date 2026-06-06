@@ -47,9 +47,9 @@ typedef unsigned char uchar;
 //==================================================================================================
 // PUBLIC DEFINE
 //==================================================================================================
-#define RUSTLIKE_TYPES_MAJOR_VERSION (0)
-#define RUSTLIKE_TYPES_MINOR_VERSION (2)
-#define RUSTLIKE_TYPES_PATCH_VERSION (0)
+#define RUSTLIKE_TYPES__MAJOR_VERSION (0)
+#define RUSTLIKE_TYPES__MINOR_VERSION (2)
+#define RUSTLIKE_TYPES__PATCH_VERSION (0)
 
 #ifndef bool
 #define bool bool_t
