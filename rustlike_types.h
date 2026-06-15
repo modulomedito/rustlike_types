@@ -49,7 +49,7 @@ typedef unsigned char uchar;
 //==================================================================================================
 #define RUSTLIKE_TYPES_MAJOR_VERSION (0)
 #define RUSTLIKE_TYPES_MINOR_VERSION (3)
-#define RUSTLIKE_TYPES_PATCH_VERSION (0)
+#define RUSTLIKE_TYPES_PATCH_VERSION (1)
 
 #ifndef bool
 #define bool bool_t
@@ -63,6 +63,22 @@ typedef unsigned char uchar;
 #define false (0)
 #endif
 
+#ifndef RUSTLIKE_TYPES_DEFINE_SLICE
+#define RUSTLIKE_TYPES_DEFINE_SLICE(T)                                                             \
+    typedef struct {                                                                               \
+        volatile T *ptr;                                                                           \
+        u32 len;                                                                                   \
+    } Slice_##T
+#endif
+
+#ifndef RUSTLIKE_TYPES_DEFINE_CONST_SLICE
+#define RUSTLIKE_TYPES_DEFINE_CONST_SLICE(T)                                                       \
+    typedef struct {                                                                               \
+        const volatile T *ptr;                                                                     \
+        u32 len;                                                                                   \
+    } Slice_c##T
+#endif
+
 //==================================================================================================
 // PUBLIC ENUM
 //==================================================================================================
@@ -70,6 +86,26 @@ typedef unsigned char uchar;
 //==================================================================================================
 // PUBLIC STRUCT
 //==================================================================================================
+RUSTLIKE_TYPES_DEFINE_SLICE(u8);
+RUSTLIKE_TYPES_DEFINE_SLICE(u16);
+RUSTLIKE_TYPES_DEFINE_SLICE(u32);
+RUSTLIKE_TYPES_DEFINE_SLICE(u64);
+RUSTLIKE_TYPES_DEFINE_SLICE(i8);
+RUSTLIKE_TYPES_DEFINE_SLICE(i16);
+RUSTLIKE_TYPES_DEFINE_SLICE(i32);
+RUSTLIKE_TYPES_DEFINE_SLICE(i64);
+RUSTLIKE_TYPES_DEFINE_SLICE(f32);
+RUSTLIKE_TYPES_DEFINE_SLICE(f64);
+RUSTLIKE_TYPES_DEFINE_CONST_SLICE(u8);
+RUSTLIKE_TYPES_DEFINE_CONST_SLICE(u16);
+RUSTLIKE_TYPES_DEFINE_CONST_SLICE(u32);
+RUSTLIKE_TYPES_DEFINE_CONST_SLICE(u64);
+RUSTLIKE_TYPES_DEFINE_CONST_SLICE(i8);
+RUSTLIKE_TYPES_DEFINE_CONST_SLICE(i16);
+RUSTLIKE_TYPES_DEFINE_CONST_SLICE(i32);
+RUSTLIKE_TYPES_DEFINE_CONST_SLICE(i64);
+RUSTLIKE_TYPES_DEFINE_CONST_SLICE(f32);
+RUSTLIKE_TYPES_DEFINE_CONST_SLICE(f64);
 
 //==================================================================================================
 // PUBLIC UNION
