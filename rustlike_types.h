@@ -49,7 +49,7 @@ typedef unsigned char uchar;
 //==================================================================================================
 #define RUSTLIKE_TYPES_MAJOR_VERSION (0)
 #define RUSTLIKE_TYPES_MINOR_VERSION (3)
-#define RUSTLIKE_TYPES_PATCH_VERSION (1)
+#define RUSTLIKE_TYPES_PATCH_VERSION (2)
 
 #ifndef bool
 #define bool bool_t
@@ -61,6 +61,11 @@ typedef unsigned char uchar;
 
 #ifndef false
 #define false (0)
+#endif
+
+#ifndef C99_STATIC_ASSERT
+#define C99_STATIC_ASSERT(name, condition)                                                         \
+    typedef char name##_failed_at_line_##__LINE__[(condition) ? 1 : -1]
 #endif
 
 #ifndef RUSTLIKE_TYPES_DEFINE_SLICE
