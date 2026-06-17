@@ -4,37 +4,270 @@ Rust like C language typedefs header file for C.
 
 ## Rust-like Coding Style
 
-Summary table showed below:
+### File Name
 
-| File            | Object Type                        | Style                                 | Convention                                | Example                                       | Why                                   |
-| --------------- | ---------------------------------- | ------------------------------------- | ----------------------------------------- | --------------------------------------------- | ------------------------------------- |
-| Source / Header | File name                          | lower_snake_case                      | `<module_name.c>`                         | `demo_mod.c`                                  | Namespace isolation                   |
-| Source / Header | Public / Private variable          | lower_snake_case                      | `<module_name>_<variable_name>`           | `demo_mod_variable`                           | Global scope identification           |
-| Source / Header | Public / Private function          | lower_snake_case                      | `<module_name>_<function_name>`           | `demo_mod_do_something()`                     | Namespace isolation                   |
-| Source / Header | Public / Private pointer reference | lower_snake_case                      | `<module_name>_<pointer_var_name>_ref`    | `const u8 *demo_mod_variable_ref`             | Reference pointer type identification |
-| Source / Header | Public / Private pointer mutable   | lower_snake_case                      | `<module_name>_<pointer_var_name>_mut`    | `u8 *demo_mod_variable_mut`                   | Mutable pointer type identification   |
-| Source / Header | Public / Private array variable    | lower_snake_case                      | `<module_name>_<pointer_var_name>_buf`    | `demo_mod_variable_buf`                       | Pointer type identification           |
-| Source / Header | Public / Private table variable    | lower_snake_case                      | `<module_name>_<pointer_var_name>_tbl`    | `const demo_mod_variable_tbl[1024]`           | Constant table identification         |
-| Source / Header | Public / Private typedef           | PascalCase                            | `<module_name>_<TypeName>`                | `typedef xxx demo_mod_LengthAndSize`          | Type safety                           |
-| Source / Header | Public / Private OOP Function      | PascalCase and lower_snake_case       | `<module_name>_<ClassName>_<method_name>` | `demo_mod_ClassOne_init()`                    | Object-oriented style                 |
-| Source / Header | Public / Private macro             | UPPER_SNAKE_CASE                      | `<MODULE_NAME>_<MACRO>`                   | `DEMO_MOD_MAX_SIZE`                           | Macro                                 |
-| Source / Header | Public / Private struct            | PascalCase                            | `<module_name>_<StructName>`              | `demo_mod_SomeStruct`                         | Local scope                           |
-| Source / Header | Public / Private union             | PascalCase                            | `<module_name>_<UnionName>`               | `demo_mod_SomeUnion`                          | Local scope                           |
-| Source / Header | Public / Private enum              | PascalCase                            | `<module_name>_<EnumType>`                | `demo_mod_EnumOne`                            | Clear type identification             |
-| Source / Header | Public / Private enum Value        | PascalCase                            | `<module_name>_<EnumType>_<EnumValue>`    | `demo_mod_EnumOne_Value1`                     | Clear type identification             |
-| Source / Header | Temp variable                      | lower_snake_case                      | `<temp_variable_name>`                    | `temp_variable`                               | Temporary variable                    |
-| Source / Header | Temp variable pointer              | lower_snake_case                      | `<temp_variable_name>_ref` or `_mut`      | `const u8 *temp_var_ref` / `u8 *temp_var_mut` | Temporary pointer (read or write)     |
-| Source / Header | Temp variable buffer               | lower_snake_case                      | `<temp_variable_name>_buf`                | `temp_var_buf`                                | Temporary buffer                      |
-| Source / Header | Param Input                        | lower_snake_case                      | `<parameter_name>`                        | `param`                                       | Input parameter                       |
-| Source / Header | Param Input/Output                 | lower_snake_case                      | `<parameter_name>_mut`                    | `param_mut`                                   | Input param / Output param            |
-| Header          | File name                          | lower_snake_case                      | `<module_name.h>`                         | `demo_mod.h`                                  | Namespace isolation                   |
-| Header          | Include guard                      | UPPER_SNAKE_CASE                      | `<FILE_NAME_H>`                           | `DEMO_MOD_H`                                  | Prevent multiple inclusion            |
-| Boolean         | Boolean variable refix             | has/is/can                            |                                           | `is_erased`, `has_request`, `can_be_erased`   | Clear boolean meaning                 |
-| Comment         | Doxygen Line                       | /// Comment                           | `/// Comment`                             | `/// Initialize the module`                   | Documentation                         |
-| Comment         | Doxygen Inline                     | ///< Comment                          | `///< Comment`                            | `i32 value; ///< The value is for ...`        | Documentation                         |
-| Comment         | Normal Line                        | // Comment                            | `// Comment`                              | `// Process the data`                         | Code explanation                      |
-| Comment         | Normal Inline                      | // Comment                            | `// Comment`                              | `i32 x; // Counter`                           | Code explanation                      |
-| Note            | Private variable or function       | With `static` keyword                 |                                           | `static u8 demo_mod_variable;`                | Static                                |
-| Note            | Public variable or function        | With `extern` keyword and header only |                                           | `extern void demo_mod_function(void);`        | Extern                                |
-| Note            | Empty function param               | Filled with void                      |                                           | `void demo_mod_function(void);`               | Explicit void declaration             |
-| Note            | Input param                        | With `const` keyword                  |                                           | `const u8 *input_data_ref`                    | Read-only protect                     |
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name.c>`
+  - `<module_name.h>`
+- Example
+  - `my_mod.c`
+  - `my_mod.h`
+- Reason: One file is one module, file name used as namespace
+
+### Functions
+
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name>_<function_name>`
+- Example
+  - Public functionss
+    - `u8 my_mod_init(void)`
+    - `u32 my_mod_get_number(void)`
+  - Private functions
+    - `static u8 my_mod_init(void)`
+    - `static u32 my_mod_get_number(void)`
+- Reason: Namespace prefix, single underscore connection, consistent naming
+  regardless of linkage—switching between static and extern does not require
+  renaming
+
+### Variables
+
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name>_<variable_name>`
+- Example
+  - Public variables
+    - `u8 my_mod_var;`
+    - `bool my_mod_is_ok;`
+  - Private variables
+    - `static u8 my_mod_var;`
+    - `static bool my_mod_is_ok;`
+  - In function variables
+    - `u8 var;`
+    - `bool is_ok;`
+- Reason: File scope variables have namespace prefix with single underscore
+  connection, consistent naming regardless of linkage—switching between static
+  and extern does not require renaming. In function varibles removes the
+  namespace prefix.
+
+#### Reference Pointer Variables
+
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name>_<pointer_variable_name>_ref`
+- Example
+  - Public reference pointer variables
+    - `const u8 *my_mod_var_ref;`
+    - `const bool *my_mod_is_ok_ref;`
+  - Private reference pointer variables
+    - `static const u8 *my_mod_var_ref;`
+    - `static const bool *my_mod_is_ok_ref;`
+  - In function reference pointer variables
+    - `const u8 *var_ref;`
+    - `const bool *is_ok_ref;`
+- Reason: `_ref` suffix, and `const` decoration to prevent writes
+
+#### Mutable Pointer Variables
+
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name>_<pointer_variable_name>_mut`
+- Example
+  - Public mutable pointer variables
+    - `u8 *my_mod_var_mut;`
+    - `bool *my_mod_is_ok_mut;`
+  - Private mutable pointer variables
+    - `static u8 *my_mod_var_mut;`
+    - `static bool *my_mod_is_ok_mut;`
+  - In function mutable pointer variables
+    - `u8 *var_mut;`
+    - `bool *is_ok_mut;`
+- Reason: `_mut` suffix
+
+### Buffer Variables
+
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name>_<variable_name>_buf`
+- Example
+  - Public variables
+    - `u8 my_mod_data_buf[10];`
+    - `u32 my_mod_long_buf[16];`
+  - Private variables
+    - `static u8 my_mod_data_buf[10];`
+    - `static u32 my_mod_long_buf[16];`
+  - In function variables
+    - `u8 data_buf[10];`
+    - `u32 long_buf[16];`
+- Reason: `_buf` suffix.
+
+#### Reference Buffer Variables
+
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name>_<pointer_variable_name>_buf_ref`
+- Example
+  - Public reference pointer variables
+    - `const u8 *my_mod_var_buf_ref = &my_mod_var_buf[0];`
+    - `const bool *my_mod_is_ok_buf_ref = &my_mod_is_ok_buf[0];`
+  - Private reference pointer variables
+    - `static const u8 *my_mod_var_buf_ref = &my_mod_var_buf[0];`
+    - `static const bool *my_mod_is_ok_buf_ref = &my_mod_is_ok_buf[0];`
+  - In function reference pointer variables
+    - `const u8 *var_ref = &my_mod_var_buf[0];`
+    - `const bool *is_ok_ref = &my_mod_is_ok_buf[0];`
+- Reason: `_buf_ref` suffix, and `const` decoration to prevent writes
+
+#### Mutable Buffer Variables
+
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name>_<pointer_variable_name>_buf_mut`
+- Example
+  - Public mutable pointer variables
+    - `u8 *my_mod_var_buf_mut = &my_mod_var_buf[0];`
+    - `bool *my_mod_is_ok_buf_mut = &my_mod_is_ok_buf[0];`
+  - Private mutable pointer variables
+    - `static u8 *my_mod_var_buf_mut = &my_mod_var_buf[0];`
+    - `static bool *my_mod_is_ok_buf_mut = &my_mod_is_ok_buf[0];`
+  - In function mutable pointer variables
+    - `u8 *var_buf_mut = &my_mod_var_buf[0];`
+    - `bool *is_ok_buf_mut = &my_mod_is_ok_buf[0];`
+- Reason: `_buf_mut` suffix
+
+### Table Variables
+
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name>_<pointer_variable_name>_tbl`
+- Example
+  - Public reference pointer variables
+    - `const u8 my_mod_var_tbl[3] = {1, 2, 3};`
+  - Private reference pointer variables
+    - `static const u8 my_mod_var_tbl[3] = {1, 2, 3};`
+  - In function reference pointer variables
+    - `const u8 var_tbl[3] = {1, 2, 3};`
+- Reason: `_tbl` suffix, and `const` decoration to prevent writes
+
+#### Reference Table Variables
+
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name>_<pointer_variable_name>_tbl_ref`
+- Example
+  - Public reference pointer variables
+    - `const u8 *my_mod_var_tbl_ref = &my_mod_var_tbl[0];`
+  - Private reference pointer variables
+    - `static const u8 *my_mod_var_tbl_ref = &my_mod_var_tbl[0];`
+  - In function reference pointer variables
+    - `const u8 var_tbl_ref = &my_mod_var_tbl[0];`
+- Reason: `_tbl_ref` suffix, and `const` decoration to prevent writes
+
+#### Mutable Table Variables
+
+- Style: `lower_snake_case`
+- Convention:
+  - `<module_name>_<pointer_variable_name>_tbl_mut`
+- Example
+  - Public reference pointer variables
+    - `u8 *my_mod_var_tbl_mut = &my_mod_var_tbl[0];`
+  - Private reference pointer variables
+    - `static u8 *my_mod_var_tbl_mut = &my_mod_var_tbl[0];`
+  - In function reference pointer variables
+    - `u8 var_tbl_mut = &my_mod_var_tbl[0];`
+- Reason: `_tbl_mut` suffix
+
+### Typedef
+
+- Style: `PascalCase`
+- Convention:
+  - `<module_name>_<TypeName>`
+- Example
+  - `typedef u8 my_mod_LengthAndSize`
+- Reason: Add namespace prefix
+
+### Macro
+
+- Style: `UPPER_SNAKE_CASE`
+- Convention:
+  - `<MODULE_NAME>_<MACRO>`
+- Example
+  - Public macro
+    - `MY_MOD_MAX_SIZE`
+  - Private macro
+    - `MY_MOD_MAX_SIZE`
+- Reason: Add namespace prefix, consistent naming regardless of linkage
+
+### Struct
+
+- Style: `PascalCase`
+- Convention:
+  - `<module_name>_<StructName>`
+- Example
+  - Public struct
+    - `struct my_mod_SomeStruct`
+  - Private struct
+    - `struct my_mod_SomeStruct`
+- Reason: Add namespace prefix
+
+#### Struct (Class) Method
+
+- Style: `PascalCase` + `lower_snake_case`
+- Convention:
+  - `<module_name>_<StructName>_<method_name>`
+- Example
+  - Public struct method
+    - `void my_mod_SomeStruct_do_something(my_mod_SomeStruct *self)`
+  - Private struct method
+    - `static void my_mod_SomeStruct_do_something(my_mod_SomeStruct *self)`
+- Reason: Add namespace prefix
+
+### Union
+
+- Style: `PascalCase`
+- Convention:
+  - `<module_name>_<UnionName>`
+- Example
+  - Public struct
+    - `struct my_mod_SomeUnion`
+  - Private struct
+    - `struct my_mod_SomeUnion`
+- Reason: Add namespace prefix
+
+### Enum
+
+- Style: `PascalCase`
+- Convention:
+  - `<module_name>_<EnumType>`
+- Example
+  - Public struct
+    - `struct my_mod_SomeEnum`
+  - Private struct
+    - `struct my_mod_SomeEnum`
+- Reason: Add namespace prefix
+
+#### Enum Value
+
+- Style: `PascalCase`
+- Convention:
+  - `<module_name>_<EnumType>_<EnumValue>`
+- Example
+  - Public struct
+    - `struct my_mod_SomeEnum_Val1`
+  - Private struct
+    - `struct my_mod_SomeEnum_Val1`
+- Reason: Add namespace prefix
+
+| File    | Object Type                  | Style                                 | Convention      | Example                                     | Why                        |
+| ------- | ---------------------------- | ------------------------------------- | --------------- | ------------------------------------------- | -------------------------- |
+| Header  | Include guard                | UPPER_SNAKE_CASE                      | `<FILE_NAME_H>` | `DEMO_MOD_H`                                | Prevent multiple inclusion |
+| Boolean | Boolean variable refix       | has/is/can                            |                 | `is_erased`, `has_request`, `can_be_erased` | Clear boolean meaning      |
+| Comment | Doxygen Line                 | /// Comment                           | `/// Comment`   | `/// Initialize the module`                 | Documentation              |
+| Comment | Doxygen Inline               | ///< Comment                          | `///< Comment`  | `i32 value; ///< The value is for ...`      | Documentation              |
+| Comment | Normal Line                  | // Comment                            | `// Comment`    | `// Process the data`                       | Code explanation           |
+| Comment | Normal Inline                | // Comment                            | `// Comment`    | `i32 x; // Counter`                         | Code explanation           |
+| Note    | Private variable or function | With `static` keyword                 |                 | `static u8 demo_mod_variable;`              | Static                     |
+| Note    | Public variable or function  | With `extern` keyword and header only |                 | `extern void demo_mod_function(void);`      | Extern                     |
+| Note    | Empty function param         | Filled with void                      |                 | `void demo_mod_function(void);`             | Explicit void declaration  |
+| Note    | Input param                  | With `const` keyword                  |                 | `const u8 *input_data_ref`                  | Read-only protect          |
