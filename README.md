@@ -199,6 +199,20 @@ Rust like C language typedefs header file for C.
     - `MY_MOD_MAX_SIZE`
 - Reason: Add namespace prefix, consistent naming regardless of linkage
 
+### Include Guard
+
+- Style: `UPPER_SNAKE_CASE`
+- Convention:
+  - `<MODULE_NAME>_H`
+- Example
+  ```
+  #ifndef MY_MOD_H
+  #define MY_MOD_H
+  ...
+  #endif
+  ```
+- Reason: Add namespace prefix, consistent naming regardless of linkage
+
 ### Struct
 
 - Style: `PascalCase`
@@ -229,10 +243,10 @@ Rust like C language typedefs header file for C.
 - Convention:
   - `<module_name>_<UnionName>`
 - Example
-  - Public struct
-    - `struct my_mod_SomeUnion`
-  - Private struct
-    - `struct my_mod_SomeUnion`
+  - Public union
+    - `union my_mod_SomeUnion`
+  - Private union
+    - `union my_mod_SomeUnion`
 - Reason: Add namespace prefix
 
 ### Enum
@@ -242,9 +256,9 @@ Rust like C language typedefs header file for C.
   - `<module_name>_<EnumType>`
 - Example
   - Public struct
-    - `struct my_mod_SomeEnum`
+    - `enum my_mod_SomeEnum`
   - Private struct
-    - `struct my_mod_SomeEnum`
+    - `enum my_mod_SomeEnum`
 - Reason: Add namespace prefix
 
 #### Enum Value
@@ -254,20 +268,49 @@ Rust like C language typedefs header file for C.
   - `<module_name>_<EnumType>_<EnumValue>`
 - Example
   - Public struct
-    - `struct my_mod_SomeEnum_Val1`
+    - `my_mod_SomeEnum_Val1`
   - Private struct
-    - `struct my_mod_SomeEnum_Val1`
+    - `my_mod_SomeEnum_Val1`
 - Reason: Add namespace prefix
 
-| File    | Object Type                  | Style                                 | Convention      | Example                                     | Why                        |
-| ------- | ---------------------------- | ------------------------------------- | --------------- | ------------------------------------------- | -------------------------- |
-| Header  | Include guard                | UPPER_SNAKE_CASE                      | `<FILE_NAME_H>` | `DEMO_MOD_H`                                | Prevent multiple inclusion |
-| Boolean | Boolean variable refix       | has/is/can                            |                 | `is_erased`, `has_request`, `can_be_erased` | Clear boolean meaning      |
-| Comment | Doxygen Line                 | /// Comment                           | `/// Comment`   | `/// Initialize the module`                 | Documentation              |
-| Comment | Doxygen Inline               | ///< Comment                          | `///< Comment`  | `i32 value; ///< The value is for ...`      | Documentation              |
-| Comment | Normal Line                  | // Comment                            | `// Comment`    | `// Process the data`                       | Code explanation           |
-| Comment | Normal Inline                | // Comment                            | `// Comment`    | `i32 x; // Counter`                         | Code explanation           |
-| Note    | Private variable or function | With `static` keyword                 |                 | `static u8 demo_mod_variable;`              | Static                     |
-| Note    | Public variable or function  | With `extern` keyword and header only |                 | `extern void demo_mod_function(void);`      | Extern                     |
-| Note    | Empty function param         | Filled with void                      |                 | `void demo_mod_function(void);`             | Explicit void declaration  |
-| Note    | Input param                  | With `const` keyword                  |                 | `const u8 *input_data_ref`                  | Read-only protect          |
+### Comments
+
+#### Inline Comments
+
+Normal
+
+```
+u8 i; // This is a comment
+```
+
+Doxygen style
+
+```
+u8 i; ///< This is a comment
+```
+
+#### Line Comments
+
+Normal
+
+```
+// This is a comment
+u8 i;
+```
+
+Doxygen style
+
+```
+/// This is a comment
+u8 i;
+```
+
+### Boolean Prefix
+
+Prefix with has/is/can ...
+
+Example:
+
+- `is_erased`
+- `has_request`
+- `can_be_erased`
