@@ -12,7 +12,7 @@ AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortFunctionsOnASingleLine: None
 BinPackArguments: false
 BinPackParameters: false
-ColumnLimit: 100
+ColumnLimit: 80
 IndentExternBlock: NoIndent
 IndentWidth: 4
 PenaltyBreakBeforeFirstCallParameter: 0
