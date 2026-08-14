@@ -1,5 +1,5 @@
 //==============================================================================
-/// @file       rustlike_types.h
+/// @file       rltype.h
 /// @author     modulomedito (chcchc1995@outlook.com)
 /// @brief      Define rust-like data types for C language
 /// @copyright  Copyright (C) 2026. MIT License.
@@ -10,10 +10,11 @@
 //==============================================================================
 // GUARD START
 //==============================================================================
-#ifndef RUSTLIKE_TYPES_H
-#define RUSTLIKE_TYPES_H
+#ifndef RLTYPE_H
+#define RLTYPE_H
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 //==============================================================================
@@ -27,6 +28,7 @@ extern "C" {
 //==============================================================================
 // PUBLIC TYPEDEF
 //==============================================================================
+// Common used
 typedef uint8_t u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
@@ -37,6 +39,7 @@ typedef int32_t i32;
 typedef int64_t i64;
 typedef float f32;
 typedef double f64;
+// Not recommended
 typedef uintptr_t uptr;
 typedef intptr_t iptr;
 typedef ptrdiff_t isize;
@@ -47,29 +50,13 @@ typedef unsigned char uchar;
 //==============================================================================
 // PUBLIC DEFINE
 //==============================================================================
-#define RUSTLIKE_TYPES_MAJOR_VERSION (0)
-#define RUSTLIKE_TYPES_MINOR_VERSION (3)
-#define RUSTLIKE_TYPES_PATCH_VERSION (3)
+#define RLTYPE_MAJOR_VERSION (0U)
+#define RLTYPE_MINOR_VERSION (4U)
+#define RLTYPE_PATCH_VERSION (0U)
 
-#ifndef C99_STATIC_ASSERT
-#define C99_STATIC_ASSERT(name, condition)                                     \
-    typedef char name##_failed_at_line_##__LINE__[(condition) ? 1 : -1]
-#endif
-
-#ifndef RUSTLIKE_TYPES_DEFINE_SLICE
-#define RUSTLIKE_TYPES_DEFINE_SLICE(T)                                         \
-    typedef struct {                                                           \
-        volatile T *ptr;                                                       \
-        u32 len;                                                               \
-    } Slice_##T
-#endif
-
-#ifndef RUSTLIKE_TYPES_DEFINE_CONST_SLICE
-#define RUSTLIKE_TYPES_DEFINE_CONST_SLICE(T)                                   \
-    typedef struct {                                                           \
-        const volatile T *ptr;                                                 \
-        u32 len;                                                               \
-    } Slice_c##T
+#ifndef RLTYPE_STATIC_ASSERT
+#define RLTYPE_STATIC_ASSERT(name, cond)                                       \
+    typedef char name##_failed_at_line_##__LINE__[(cond) ? 1 : -1]
 #endif
 
 //==============================================================================
@@ -79,26 +66,6 @@ typedef unsigned char uchar;
 //==============================================================================
 // PUBLIC STRUCT
 //==============================================================================
-RUSTLIKE_TYPES_DEFINE_SLICE(u8);
-RUSTLIKE_TYPES_DEFINE_SLICE(u16);
-RUSTLIKE_TYPES_DEFINE_SLICE(u32);
-RUSTLIKE_TYPES_DEFINE_SLICE(u64);
-RUSTLIKE_TYPES_DEFINE_SLICE(i8);
-RUSTLIKE_TYPES_DEFINE_SLICE(i16);
-RUSTLIKE_TYPES_DEFINE_SLICE(i32);
-RUSTLIKE_TYPES_DEFINE_SLICE(i64);
-RUSTLIKE_TYPES_DEFINE_SLICE(f32);
-RUSTLIKE_TYPES_DEFINE_SLICE(f64);
-RUSTLIKE_TYPES_DEFINE_CONST_SLICE(u8);
-RUSTLIKE_TYPES_DEFINE_CONST_SLICE(u16);
-RUSTLIKE_TYPES_DEFINE_CONST_SLICE(u32);
-RUSTLIKE_TYPES_DEFINE_CONST_SLICE(u64);
-RUSTLIKE_TYPES_DEFINE_CONST_SLICE(i8);
-RUSTLIKE_TYPES_DEFINE_CONST_SLICE(i16);
-RUSTLIKE_TYPES_DEFINE_CONST_SLICE(i32);
-RUSTLIKE_TYPES_DEFINE_CONST_SLICE(i64);
-RUSTLIKE_TYPES_DEFINE_CONST_SLICE(f32);
-RUSTLIKE_TYPES_DEFINE_CONST_SLICE(f64);
 
 //==============================================================================
 // PUBLIC UNION
@@ -113,9 +80,66 @@ RUSTLIKE_TYPES_DEFINE_CONST_SLICE(f64);
 //==============================================================================
 
 //==============================================================================
+// PUBLIC INLINE FUNCTION DEFINITION
+//==============================================================================
+static inline void rltype_assert(bool cond)
+{
+#if defined(__linux__) || defined(__APPLE__) || defined(_WIN32) // Host
+    assert(cond);
+#elif defined(__HIGHTEC__) // HighTec (GCC-based, TriCore/Aurix)
+#define util_std_assert(cond)
+    if ((cond) == false)
+    {
+        __builtin_trap();
+    }
+#elif defined(__TASKING__) // TASKING
+    if ((cond) == false)
+    {
+        __debug();
+    }
+#elif defined(__TI_COMPILER_VERSION__) // TI C2000
+    if ((cond) == false)
+    {
+        asm(" ESTOP0");
+    }
+#elif defined(__GNUC__) // Generic GCC (ARM, RISC-V, etc.)
+    if ((cond) == false)
+    {
+        __builtin_trap();
+    }
+#else // Unknown platform: infinite loop
+    if ((cond) == false)
+    {
+        for (;;)
+        {
+        }
+    }
+#endif
+}
+
+static inline void rltype_panic(void)
+{
+#if defined(__linux__) || defined(__APPLE__) || defined(_WIN32) // Host
+    assert(0);
+#elif defined(__HIGHTEC__) // HighTec (GCC-based, TriCore/Aurix)
+    __builtin_trap();
+#elif defined(__TASKING__) // TASKING
+    __debug();
+#elif defined(__TI_COMPILER_VERSION__) // TI C2000
+    asm(" ESTOP0");
+#elif defined(__GNUC__) // Generic GCC (ARM, RISC-V, etc.)
+    __builtin_trap();
+#else // Unknown platform: infinite loop
+    for (;;)
+    {
+    }
+#endif
+}
+
+//==============================================================================
 // GUARD END
 //==============================================================================
 #ifdef __cplusplus
 }
 #endif
-#endif // #ifndef RUSTLIKE_TYPES_H
+#endif // #ifndef RLTYPE_H

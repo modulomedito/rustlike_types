@@ -1,6 +1,6 @@
 # rustlike_types
 
-Rust like C language typedefs header file for C.
+`rltype.h`, a rust-like C language typedefs header file for embedded C project.
 
 ## Rust-like Coding Style
 
@@ -39,3 +39,15 @@ Rust like C language typedefs header file for C.
 | Private variable/function   | With `static` keyword                | `static u8 file_variable`     |
 | Public variable/function    | With `extern` keyword                | `extern void file_func(void)` |
 | Empty function param        | Filled with void                     | `void file_func(void);`       |
+
+### Suffix
+
+- An array, add `_buf` suffix
+- A table, is a `const` decorated array, add `_tbl` suffix
+- A pointer, add `_ptr` suffix
+- A pointer to an array, add `_buf_ptr` suffix
+- A pointer to a table, add `_tbl_ptr` suffix
+
+How about a pointer to a table, which stores many data buffer pointers?
+
+It should be named as `data_buf_ptr_tbl_ptr`.
