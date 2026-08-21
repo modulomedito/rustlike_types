@@ -3,6 +3,7 @@ AlignAfterOpenBracket: BlockIndent
 AlignTrailingComments : false
 AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortFunctionsOnASingleLine: None
 BinPackArguments: false
 BinPackParameters: false
 BreakBeforeBraces: Allman
