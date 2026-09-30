@@ -53,7 +53,7 @@ typedef unsigned char uchar;
 //==============================================================================
 #define RLTYPE_MAJOR_VERSION (0U)
 #define RLTYPE_MINOR_VERSION (4U)
-#define RLTYPE_PATCH_VERSION (0U)
+#define RLTYPE_PATCH_VERSION (1U)
 
 // Attention: `buf` must not be a pointer, therefore, not apply to the array
 // argument of a function (which actually is a pointer)
